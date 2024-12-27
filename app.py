@@ -48,6 +48,21 @@ def get_secret(
 
 app = FastAPI()
 
+# CORS Middleware Configuration
+origins = [
+    "http://localhost:3000",
+    "https://v0-app-5lswgd9wadi.vercel.app",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # 3. Index route, opens automatically on http://127.0.0.1:8000
 @app.get('/')
 def index():
@@ -58,7 +73,7 @@ def get_api_key(secret: str = Security(get_secret), address: str = None):
     if not address:
         raise HTTPException(status_code=400, detail="Address is required")
 
-    json_file_path = "etc/secrets/tranquil-lore-396810-a584b05b6b14.json"
+    json_file_path = "/etc/secrets/tranquil-lore-396810-a584b05b6b14.json"
     credentials = load_credentials_from_file(json_file_path)
     db = get_firestore_client(credentials)
     collection_ref = db.collection('collection api')
