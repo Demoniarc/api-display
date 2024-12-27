@@ -48,21 +48,6 @@ def get_secret(
 
 app = FastAPI()
 
-# CORS Middleware Configuration
-origins = [
-    "http://localhost:3000",
-    "https://v0-app-5lswgd9wadi.vercel.app",
-    "http://127.0.0.1:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # 3. Index route, opens automatically on http://127.0.0.1:8000
 @app.get('/')
 def index():
