@@ -93,7 +93,7 @@ def get_api_key(secret: str = Security(get_secret), address: str = None):
 
 @app.get('/preview')
 def get_preview(secret: str = Security(get_secret)):
-    credentials_path = 'etc/secrets/tranquil-lore-396810-2d54adfd3963.json'
+    credentials_path = '/etc/secrets/tranquil-lore-396810-2d54adfd3963.json'
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
     client = bigquery.Client()
     query = """
