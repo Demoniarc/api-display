@@ -5,6 +5,7 @@ import uvicorn
 from fastapi import HTTPException, status, Security, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import APIKeyHeader, APIKeyQuery
+from google.cloud import bigquery
 from google.cloud import firestore
 from google.oauth2 import service_account
 import time
@@ -89,6 +90,46 @@ def get_api_key(secret: str = Security(get_secret), address: str = None):
         raise HTTPException(status_code=401, detail="API key expired")
 
     return {"api_key": user_data['api_key']}
+
+@app.get('/preview')
+def get_preview(secret: str = Security(get_secret)):
+    credentials_path = 'etc/secrets/tranquil-lore-396810-2d54adfd3963.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
+    client = bigquery.Client()
+    query = """
+    SELECT 'genomes' AS project_id, twitter_user, discord_user, telegram_user
+    FROM `tranquil-lore-396810.mopsos_ai.genomes` 
+    WHERE date = CURRENT_DATE() - 1
+
+    UNION ALL
+
+    SELECT 'anyone' AS project_id, twitter_user, discord_user, telegram_user
+    FROM `tranquil-lore-396810.mopsos_ai.anyone` 
+    WHERE date = CURRENT_DATE() - 1
+
+    UNION ALL
+
+    SELECT 'numerai' AS project_id, twitter_user, discord_user, telegram_user
+    FROM `tranquil-lore-396810.mopsos_ai.numerai` 
+    WHERE date = CURRENT_DATE() - 1
+
+    UNION ALL
+
+    SELECT 'dimitra' AS project_id, twitter_user, discord_user, telegram_user
+    FROM `tranquil-lore-396810.mopsos_ai.dimitra` 
+    WHERE date = CURRENT_DATE() - 1
+
+    UNION ALL
+
+    SELECT 'oceanprotocol' AS project_id, twitter_user, discord_user, telegram_user
+    FROM `tranquil-lore-396810.mopsos_ai.ocean_protocol` 
+    WHERE date = CURRENT_DATE() - 1
+    """
+    query_job = client.query(query)
+    results = query_job.result(page_size=10000)
+    rows = [dict(row) for row in results]
+
+    return rows
     
 # 5. Run the API with uvicorn
 #    Will run on http://127.0.0.1:8000
