@@ -99,31 +99,31 @@ def get_preview(secret: str = Security(get_secret)):
     query = """
     SELECT 'genomes' AS project_id, twitter_user, discord_user, telegram_user
     FROM `tranquil-lore-396810.mopsos_ai.genomes` 
-    WHERE date = CURRENT_DATE() - 1
+    WHERE date = CURRENT_DATE() - 2
 
     UNION ALL
 
     SELECT 'anyone' AS project_id, twitter_user, discord_user, telegram_user
     FROM `tranquil-lore-396810.mopsos_ai.anyone` 
-    WHERE date = CURRENT_DATE() - 1
+    WHERE date = CURRENT_DATE() - 2
 
     UNION ALL
 
     SELECT 'numerai' AS project_id, twitter_user, discord_user, telegram_user
     FROM `tranquil-lore-396810.mopsos_ai.numerai` 
-    WHERE date = CURRENT_DATE() - 1
+    WHERE date = CURRENT_DATE() - 2
 
     UNION ALL
 
     SELECT 'dimitra' AS project_id, twitter_user, discord_user, telegram_user
     FROM `tranquil-lore-396810.mopsos_ai.dimitra` 
-    WHERE date = CURRENT_DATE() - 1
+    WHERE date = CURRENT_DATE() - 2
 
     UNION ALL
 
     SELECT 'oceanprotocol' AS project_id, twitter_user, discord_user, telegram_user
     FROM `tranquil-lore-396810.mopsos_ai.ocean_protocol` 
-    WHERE date = CURRENT_DATE() - 1
+    WHERE date = CURRENT_DATE() - 2
     """
     query_job = client.query(query)
     results = query_job.result(page_size=10000)
