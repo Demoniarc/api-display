@@ -16,7 +16,7 @@ import json
 api_key_query = APIKeyQuery(name="api-key", auto_error=False)
 api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
 
-json_secret = 'b668705246684ade9d57f17d4f805f6be7c9ad931fd1636273404b593a93a8be'
+json_secret = os.getenv('json_secret')
 
 def load_credentials_from_file(json_file_path):
     with open(json_file_path) as json_file:
