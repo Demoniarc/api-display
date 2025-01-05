@@ -53,6 +53,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "https://mopsos-ai.vercel.app",
+    "https://app-2-test.vercel.app",
     "http://127.0.0.1:3000",
 ]
 
