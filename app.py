@@ -54,6 +54,7 @@ origins = [
     "http://localhost:3000",
     "https://mopsos-ai.vercel.app",
     "https://app-2-test.vercel.app",
+    "https://mopsos.ai",
     "http://127.0.0.1:3000",
 ]
 
